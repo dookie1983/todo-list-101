@@ -1,0 +1,46 @@
+<div class="container-fluid">
+    <h1>To do list</h1>
+    <form [formGroup]="todoForm">
+      <div class="form-group">
+        <label for="inputTopic">Topic</label>
+        <input type="text" class="form-control" id="inputTopic" placeholder="Topic" formControlName="topic"
+          [ngClass]="{'is-invalid': todoForm.controls.topic.errors && todoForm.controls.topic.touched}">
+        <div *ngIf="todoForm.controls.topic.errors && todoForm.controls.topic.touched" class="invalid-feedback">Please input Topic.</div>
+      </div>
+      <div class="form-group">
+        <label for="inputDescription">Desciption</label>
+        <input type="text" class="form-control" id="inputDescription" placeholder="Description" formControlName="description"
+        [ngClass]="{'is-invalid': todoForm.controls.description.errors && todoForm.controls.description.touched}">
+        <div *ngIf="todoForm.controls.description.errors && todoForm.controls.description.touched" class="invalid-feedback">Please input Desciption.</div>
+      </div>
+      <div class="form-group text-center" *ngIf="isAdd">
+        <button type="button" class="btn btn-primary" id="btnAdd" (click)="add()" [disabled]="todoForm.invalid">Add</button>
+      </div>
+      <div class="form-group text-center" *ngIf="!isAdd">
+        <button type="button" class="btn btn-primary" id="btnUpdate" (click)="update()" [disabled]="todoForm.invalid">Update</button>
+      </div>
+    </form>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Topic</th>
+            <th>Description</th>
+            <th class="button-action">Edit</th>
+            <th class="button-action">Remove</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="todoList.length == 0"><td colspan="5" class="text-center">No data.</td></tr>
+          <tr *ngFor="let item of todoList; let rowIndex = index;">
+            <th scope="row">{{ rowIndex+1 }}</th>
+            <td>{{ item.topic }}</td>
+            <td>{{ item.description }}</td>
+            <td class="button-action"><button type="button" class="btn btn-info" id="btnEdit{{item.id}}" (click)="edit(rowIndex)">Edit</button></td>
+            <td class="button-action"><button type="button" class="btn btn-danger" id="btnRemove{{item.id}}" (click)="remove(rowIndex)">Remove</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
