@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-todo-manage',
@@ -7,40 +7,47 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./todo-manage.component.scss']
 })
 export class TodoManageComponent implements OnInit {
-  todoListForm: FormGroup = new FormGroup({
+  todoListForm = new FormGroup({
     topic: new FormControl(''),
     description: new FormControl('')
   });
 
-  todoLists = [];
+  todoList = [];
   isAdd = true;
-  selectedItem: number;
-
+  selectItem: number;
   constructor() { }
 
   ngOnInit() {
   }
 
   add() {
-    this.todoLists.push(this.todoListForm.getRawValue());
+    this.todoList.push(this.todoListForm.getRawValue());
+    this.resetForm();
+  }
 
+  edit(rowIndex: number) {
+    this.todoListForm.setValue(this.todoList[rowIndex]);
+    this.isAdd = false;
+    this.selectItem = rowIndex;
+  }
+
+  update() {
+    this.isAdd = true;
+
+    this.todoList[this.selectItem].topic = this.todoListForm.controls.topic.value;
+    this.todoList[this.selectItem].description = this.todoListForm.controls.description.value;
+
+    this.resetForm();
+  }
+
+  resetForm() {
     this.todoListForm.controls.topic.reset('');
     this.todoListForm.controls.description.reset('');
   }
 
-  edit(rowIndex: number) {
-    this.todoListForm.controls.topic.setValue(this.todoLists[rowIndex].topic);
-    this.todoListForm.controls.description.setValue(this.todoLists[rowIndex].description);
+  remove(index) {
+    this.todoList.splice(index , 1);
+    this.resetForm();
 
-    this.isAdd = false;
-    this.selectedItem = rowIndex;
   }
-
-  update() {
-    this.todoLists[this.selectedItem].topic = this.todoListForm.controls.topic.value;
-    this.todoLists[this.selectedItem].description = this.todoListForm.controls.description.value;
-
-    this.isAdd = true;
-  }
-
 }

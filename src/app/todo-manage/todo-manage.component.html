@@ -3,19 +3,19 @@
     <form [formGroup]="todoListForm">
       <div class="form-group">
         <label for="inputTopic">Topic</label>
-        <input type="text" class="form-control" id="inputTopic" placeholder="Topic" formControlName="topic">
+        <input type="text" class="form-control" formControlName="topic" id="inputTopic" placeholder="Topic">
         <div class="invalid-feedback">Please input Topic.</div>
       </div>
       <div class="form-group">
         <label for="inputDescription">Desciption</label>
-        <input type="text" class="form-control" id="inputDescription" placeholder="Description" formControlName="description">
+        <input type="text" class="form-control" formControlName="description" id="inputDescription" placeholder="Description">
         <div class="invalid-feedback">Please input Desciption.</div>
       </div>
       <div class="form-group text-center" *ngIf="isAdd">
-        <button type="button" class="btn btn-primary" id="btnAdd" (click)="add()">Add</button>
+        <button type="button" class="btn btn-primary" (click)="add()" id="btnAdd">Add</button>
       </div>
       <div class="form-group text-center" *ngIf="!isAdd">
-        <button type="button" class="btn btn-primary" id="btnUpdate" (click)="update()">Update</button>
+        <button type="button" class="btn btn-primary" (click)="update()" id="btnUpdate">Update</button>
       </div>
     </form>
     <div class="table-responsive">
@@ -30,12 +30,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of todoLists; let rowIndex = index;">
+          <tr *ngFor="let item of todoList; let rowIndex = index;">
             <th scope="row">{{rowIndex+1}}</th>
             <td>{{item.topic}}</td>
             <td>{{item.description}}</td>
-            <td class="button-action"><button type="button" class="btn btn-info" id="btnEdit" (click)=edit(rowIndex)>Edit</button></td>
-            <td class="button-action"><button type="button" class="btn btn-danger" id="btnRemove">Remove</button></td>
+            <td class="button-action"><button type="button" class="btn btn-info" (click)="edit(rowIndex)" id="btnEdit">Edit</button></td>
+            <td class="button-action"><button type="button" class="btn btn-danger" (click)="remove(rowIndex)" id="btnRemove">Remove</button></td>
           </tr>
         </tbody>
       </table>
